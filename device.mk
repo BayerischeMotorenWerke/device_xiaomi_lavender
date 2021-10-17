@@ -168,8 +168,7 @@ PRODUCT_PACKAGES += \
     gralloc.sdm660 \
     hwcomposer.sdm660 \
     memtrack.sdm660 \
-    libdisplayconfig \
-    libtinyxml
+    libdisplayconfig
 
 PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0_32 \
@@ -373,7 +372,6 @@ PRODUCT_PACKAGES += \
     android.hardware.secure_element@1.0 \
     android.hardware.secure_element@1.0.vendor \
     rild \
-    librmnetctl \
     libprotobuf-cpp-full
 
 PRODUCT_PACKAGES += \
