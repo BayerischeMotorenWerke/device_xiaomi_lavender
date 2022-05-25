@@ -158,6 +158,14 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     $(LOCAL_PATH)/configs/task_profiles.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
+# DeviceSettings
+PRODUCT_PACKAGES += \
+   DeviceSettings
+
+# DeviceDoze
+PRODUCT_PACKAGES += \
+    DeviceDoze
+
 # Display
 PRODUCT_PACKAGES += \
     gralloc.sdm660 \
