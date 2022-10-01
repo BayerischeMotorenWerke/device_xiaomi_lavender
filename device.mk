@@ -17,8 +17,6 @@ PRODUCT_COPY_FILES += \
 # Camera
 PRODUCT_PACKAGES += \
     libstdc++.vendor \
-    libMegviiFacepp-0.5.2 \
-    libmegface
 
 # Consumerir
 BOARD_HAVE_IR := true
