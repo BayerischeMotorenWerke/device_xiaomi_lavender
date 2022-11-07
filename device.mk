@@ -4,10 +4,18 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Boot animation
+TARGET_SCREEN_HEIGHT := 2340
+TARGET_SCREEN_WIDTH := 1080
+
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-arrow
+
+PRODUCT_PACKAGES += \
+    NoCutoutOverlay \
+    NotchBarKiller
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
@@ -89,7 +97,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     $(LOCAL_PATH)/audio/audio_tuning_mixer.txt:$(TARGET_COPY_OUT_VENDOR)/etc/audio_tuning_mixer.txt \
     $(LOCAL_PATH)/audio/graphite_ipc_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/graphite_ipc_platform_info.xml \
-    $(LOCAL_PATH)/audio/listen_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/listen_platform_info.xml
+    $(LOCAL_PATH)/audio/listen_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/listen_platform_info.xml \
+    $(LOCAL_PATH)/audio/audio_platform_info_intcodec.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info_intcodec.xml \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.xml
 
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/a2dp_in_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_in_audio_policy_configuration_7_0.xml \
@@ -112,7 +122,7 @@ PRODUCT_PACKAGES += \
 
 # Biometrics
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service.xiaomi_sdm660 \
+    android.hardware.biometrics.fingerprint@2.1-service.lavender \
     android.hardware.biometrics.fingerprint@2.1.vendor
 
 PRODUCT_PACKAGES += \
@@ -128,21 +138,15 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.btconfigstore@1.0.vendor
 
 # Camera
-ifeq ($(ARROW_GAPPS), true)
 PRODUCT_PACKAGES += \
-    GCamGOPrebuilt
-else
-PRODUCT_PACKAGES += \
-    Snap
-endif
-
-PRODUCT_PACKAGES += \
+    Snap \
     android.frameworks.sensorservice@1.0.vendor \
     android.hardware.camera.device@3.5:64 \
     android.hardware.camera.provider@2.6:64 \
     android.hardware.camera.provider@2.4-impl:32 \
     android.hardware.camera.provider@2.4-service \
     libdng_sdk.vendor \
+    libstdc++.vendor \
     vendor.qti.hardware.camera.device@1.0:64
 
 # Component overrides
@@ -150,13 +154,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/component-overrides.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sysconfig/component-overrides.xml
 
 # ConsumerIR
-ifeq ($(BOARD_HAVE_IR),true)
 PRODUCT_PACKAGES += \
-    android.hardware.ir@1.0-service.xiaomi_sdm660
+    android.hardware.ir@1.0-service.lavender
 
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.consumerir.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.consumerir.xml
-endif
 
 # Display
 PRODUCT_PACKAGES += \
@@ -197,13 +199,11 @@ PRODUCT_PACKAGES += \
     android.hardware.broadcastradio@1.0-impl
 
 # FM
-ifeq ($(BOARD_HAVE_QCOM_FM),true)
 PRODUCT_PACKAGES += \
     FM2 \
     libqcomfm_jni \
     qcom.fmradio \
     qcom.fmradio.xml
-endif
 
 # fwk-detect
 PRODUCT_PACKAGES += \
@@ -261,6 +261,8 @@ PRODUCT_COPY_FILES += \
 
 # Init
 PRODUCT_PACKAGES += \
+    fstab.qcom \
+    init.device.rc \
     init.class_main.sh \
     init.msm.usb.configfs.rc \
     init.qcom.early_boot.sh \
@@ -293,7 +295,7 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.lights-service.xiaomi_sdm660
+    android.hardware.lights-service.lavender
 
 # Media
 PRODUCT_PACKAGES += \
@@ -341,6 +343,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.power-service.xiaomi-libperfmgr \
     android.hardware.power.stats@1.0-service.mock
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/powerhint.json:$(TARGET_COPY_OUT_VENDOR)/etc/powerhint.json
 
 # Protobuf
 PRODUCT_PACKAGES += \
@@ -396,15 +401,31 @@ PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl:64 \
     android.hardware.sensors@1.0-service
 
+# Shims
+PRODUCT_PACKAGES += \
+    libcamera_sdm660_shim
+
 # Tetheroffload
 PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml
 
+# USB
+PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0-service
+
+# Vibrator
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.vibrator.service
+
+PRODUCT_COPY_FILES += \
+    vendor/qcom/opensource/vibrator/excluded-input-devices.xml:$(TARGET_COPY_OUT_VENDOR)/etc/excluded-input-devices.xml
+
 # Wifi
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
     hostapd \
+    LavenderWifiOverlay \
     libwifi-hal-qcom \
     libwpa_client \
     WifiOverlay \
@@ -417,4 +438,4 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini
 
 # Inherit the proprietary files
-$(call inherit-product, vendor/xiaomi/sdm660-common/sdm660-common-vendor.mk)
+$(call inherit-product, vendor/xiaomi/lavender/lavender-vendor.mk)
