@@ -10,7 +10,7 @@ PRODUCT_SHIPPING_API_LEVEL := 28
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
-    $(LOCAL_PATH)/overlay-blaze
+    $(LOCAL_PATH)/overlay-nad
 
 PRODUCT_PACKAGES += \
     NotchBarKiller \
